@@ -38,7 +38,6 @@
 		</plugins>
 	</build>
 	<dependencies>
-
 		<!-- springframework commons start -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -176,6 +175,5 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.38</version>
 		</dependency>
-
 	</dependencies>
 </project>

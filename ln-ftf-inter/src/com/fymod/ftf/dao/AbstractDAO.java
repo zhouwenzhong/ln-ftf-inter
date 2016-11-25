@@ -14,6 +14,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fymod.ftf.config.PageModel;
 import com.fymod.ftf.util.CommonUtil;
@@ -168,4 +169,51 @@ public abstract class AbstractDAO<T> {
         return query.list();
     }
     
+    @Transactional
+    public T findOne(String hql, Object[] param) {
+        Session sess = getSession();
+        Query query = sess.createQuery(hql);
+        if (param != null && param.length > 0) {
+            for (int i = 0; i < param.length; i++) {
+                Object obj = param[i];
+                if (obj instanceof Collection<?>) {
+                    query.setParameterList(String.valueOf(i), (Collection<?>) obj);
+                } else if (obj instanceof Object[]) {
+                    query.setParameterList(String.valueOf(i), (Object[]) obj);
+                } else {
+                    query.setParameter(String.valueOf(i), obj);
+                }
+            }
+        }
+        List<T> list = query.setFirstResult(0).setMaxResults(1).list();
+        if (list != null && list.size() > 0) {
+            return list.get(0);
+        } else {
+            return null;
+        }
+
+    }
+    
+    @Transactional
+    public Long count(String hql, Object[] param) {
+        Long numLong = 0l;
+        Session sess = getSession();
+        if (param == null) {
+            numLong = (Long) sess.createQuery(hql).uniqueResult();
+        } else {
+            Query query = sess.createQuery(hql);
+            for (int i = 0; i < param.length; i++) {
+                Object obj = param[i];
+                if (obj instanceof Collection<?>) {
+                    query.setParameterList(String.valueOf(i), (Collection<?>) obj);
+                } else if (obj instanceof Object[]) {
+                    query.setParameterList(String.valueOf(i), (Object[]) obj);
+                } else {
+                    query.setParameter(String.valueOf(i), obj);
+                }
+            }
+            numLong = (Long) query.uniqueResult();
+        }
+        return numLong;
+    }
 }
