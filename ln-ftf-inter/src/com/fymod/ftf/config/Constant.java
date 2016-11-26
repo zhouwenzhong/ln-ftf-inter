@@ -16,4 +16,10 @@ public class Constant {
     public final static String SMS_CODE_TYPE_REGISTER = "register";
     /** 短信验证码类型 */
     public final static String SMS_CODE_TYPE_FORGET = "forget";
+    /** 上传图片文件保存路径 */
+    public final static String UPLOAD_IMAGE_PATH = "/usr/local/tomcat8/webapps/ROOT/image/";
+//    public final static String UPLOAD_IMAGE_PATH = "/Users/zhouwz/Downloads/";
+    /** 下载图片文件的路径 */
+    public final static String DOWNLOAD_IMAGE_PATH = "http://call.muxeyes.com:8080/image/";
+    
 }
