@@ -8,10 +8,12 @@ import com.fymod.ftf.domain.ClientUser;
 public class ClientUserDAO extends AbstractDAO<ClientUser> {
 
 	public ClientUser search(String mobile) {
-		return (ClientUser) getSession().createQuery("from ClientUser where name=:mobile")
+	    ClientUser user = (ClientUser) getSession().createQuery("from ClientUser where name=:mobile")
 		.setParameter("mobile", mobile)
 		.setMaxResults(1)
 		.uniqueResult();
+	    
+	    return user;
 	}
 	
 	public ClientUser searchByDeviceId(String deviceId) {

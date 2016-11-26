@@ -7,6 +7,7 @@ package com.fymod.ftf.config;
  *
  */
 public enum ErrorCode {
+    SYS_ERROR_CODE_1007(1007, "该手机号未注册"), //
     SYS_ERROR_CODE_1006(1006, "该手机号已经注册"), //
 	SYS_ERROR_CODE_1005(1005, "用户名不存在"), //
 	SYS_ERROR_CODE_1004(1004, "该手机号无法注册"), //

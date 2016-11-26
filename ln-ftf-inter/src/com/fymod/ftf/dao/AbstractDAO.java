@@ -2,6 +2,7 @@ package com.fymod.ftf.dao;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -36,7 +37,13 @@ public abstract class AbstractDAO<T> {
     
     @SuppressWarnings("unchecked")
     public AbstractDAO(){
-        this.entityClass = (Class<T>)((ParameterizedType)getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        Type type = getClass().getGenericSuperclass();
+        if(!(type instanceof ParameterizedType)){
+            type = getClass().getSuperclass().getGenericSuperclass();
+        }
+        Class<T> cls = (Class<T>)((ParameterizedType)type).getActualTypeArguments()[0];
+//        this.entityClass = (Class<T>)((ParameterizedType)getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        this.entityClass = cls;
     }
     
     public void save(T o){

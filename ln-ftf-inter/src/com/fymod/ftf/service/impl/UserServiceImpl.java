@@ -125,7 +125,7 @@ public class UserServiceImpl implements UserService {
 		ClientUser users = clientUserDAO.search(mobile);
 		if(users == null) {
 			ret.setResult(ResultBase.RESULT_FAIL);
-			ret.setMessage("用户不存在");
+			ret.setMessage("手机号未注册！");
 		} else {
 			//不真的发送验证码了，没钱
 //			TemplateSMS.send(mobile, "1", new String[]{"123456", "10"});
@@ -163,5 +163,11 @@ public class UserServiceImpl implements UserService {
 		}
 		return ret;
 	}
-
+	
+	@Override
+	public ClientUser getUserByMobile(String mobile) {
+        ClientUser user = clientUserDAO.search(mobile);
+        
+        return user;
+    }
 }

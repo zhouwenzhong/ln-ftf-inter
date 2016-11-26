@@ -1,6 +1,7 @@
 package com.fymod.ftf.service;
 
 import com.fymod.ftf.config.ResultBase;
+import com.fymod.ftf.domain.ClientUser;
 
 public interface UserService {
 
@@ -28,4 +29,5 @@ public interface UserService {
 	
 	public ResultBase getBoxNum(String deviceId);
 	
+	public ClientUser getUserByMobile(String mobile);
 }

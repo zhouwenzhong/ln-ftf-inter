@@ -14,4 +14,6 @@ public class Constant {
 
     /** 短信验证码类型 */
     public final static String SMS_CODE_TYPE_REGISTER = "register";
+    /** 短信验证码类型 */
+    public final static String SMS_CODE_TYPE_FORGET = "forget";
 }
