@@ -26,6 +26,7 @@ import com.fymod.ftf.util.TextUtil;
 @RequestMapping(value = "/register")
 @Transactional
 public class RegisterController {
+    private boolean isdebug = false;
     @Autowired
     private UserService userService;
 
@@ -59,8 +60,13 @@ public class RegisterController {
             // .setTemplateId(Aptitude.getInstance().smsCcp.templateId)
             // .setParameter(new String[] { code,
             // String.valueOf(Constant.SMS_CODE_VALID / 1000 / 60) }));
-//            ret = TemplateSMS.send(mobile, "130866", new String[] { code, String.valueOf(Constant.SMS_CODE_VALID / 1000 / 60) });
-            ret.setResult("1");
+            if (!isdebug) {
+                // 135757  130866
+                ret = TemplateSMS.send(mobile, "135757",
+                        new String[] { code, String.valueOf(Constant.SMS_CODE_VALID / 1000 / 60) });
+            } else {
+                ret.setResult("1");
+            }
             SmsCode smsCode = new SmsCode();
             smsCode.setState("1");
             smsCode.setCode(code);
@@ -96,7 +102,7 @@ public class RegisterController {
 
     @RequestMapping(value = "/forgetcheckcode.json", method = { RequestMethod.POST }, produces = "application/json")
     public @ResponseBody ResultBase forgetCheckCode(@RequestBody JSONObject json) {
-        
+
         ResultBase ret = new ResultBase();
         String mobile = json.getString("mobile");
         ClientUser user = userService.getUserByMobile(mobile);
@@ -111,14 +117,18 @@ public class RegisterController {
         if (count > 0) {
             return new ResultBase().error(ErrorCode.SYS_ERROR_CODE_1001);
         }
-        SmsCode sms = smsDao.findOne("from SmsCode where mobile=?0 and addTime>?1 and type=?2 and state=?3",
-                new Object[] { mobile, new Date(System.currentTimeMillis() - Constant.SMS_CODE_VALID),
-                        Constant.SMS_CODE_TYPE_FORGET, "1" });
+        SmsCode sms = smsDao.findOne("from SmsCode where mobile=?0 and addTime>?1 and type=?2 and state=?3", new Object[] {
+                mobile, new Date(System.currentTimeMillis() - Constant.SMS_CODE_VALID), Constant.SMS_CODE_TYPE_FORGET, "1" });
         // 上次 发送的已经过期
         if (count == 0) {
             String code = TextUtil.getNonceNum(6);
-//            ret = TemplateSMS.send(mobile, "130866", new String[] { code, String.valueOf(Constant.SMS_CODE_VALID / 1000 / 60) });
-            ret.setResult("1");
+            if (!isdebug) {
+                // 135757  130866
+                ret = TemplateSMS.send(mobile, "135757",
+                        new String[] { code, String.valueOf(Constant.SMS_CODE_VALID / 1000 / 60) });
+            } else {
+                ret.setResult("1");
+            }
             SmsCode smsCode = new SmsCode();
             smsCode.setState("1");
             smsCode.setCode(code);
