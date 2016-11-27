@@ -61,6 +61,7 @@ public class UserServiceImpl implements UserService {
 			json.put("token", clientUser.getToken());
 			json.put("uid", clientUser.getUid());
 			json.put("id", clientUser.getId());
+			json.put("headUrl", clientUser.getHeadUrl());
 			ret.setObj(json);
 			ret.setResult(ResultBase.RESULT_SUCC);
 		}
