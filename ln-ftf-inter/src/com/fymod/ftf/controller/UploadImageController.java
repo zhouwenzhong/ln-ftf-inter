@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,12 +16,17 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fymod.ftf.config.Constant;
 import com.fymod.ftf.config.ErrorCode;
 import com.fymod.ftf.config.ResultBase;
+import com.fymod.ftf.dao.ClientUserDAO;
+import com.fymod.ftf.domain.ClientUser;
 import com.fymod.ftf.form.UploadImgForm;
 import com.fymod.ftf.util.TextUtil;
 
 @Controller
+@Transactional
 @RequestMapping("/upload")
 public class UploadImageController {
+    @Autowired
+    private ClientUserDAO clientUserDAO;
 
     @RequestMapping(value = "/image.json", method = { RequestMethod.POST })
     public @ResponseBody ResultBase avatar(@ModelAttribute UploadImgForm form) {
@@ -50,6 +57,10 @@ public class UploadImageController {
                 is.close();
                 fos.close();
             }
+            
+            ClientUser user = clientUserDAO.findById(Long.parseLong(form.getId()));
+            user.setHeadUrl(fileUrl);
+            clientUserDAO.saveOrUpdate(user);
         } catch (Exception e) {
             result = result.error(ErrorCode.SYS_ERROR_CODE_405);
         }

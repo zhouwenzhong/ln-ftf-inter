@@ -1,5 +1,6 @@
 package com.fymod.ftf.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -34,6 +35,9 @@ public class ClientUser {
 	private String tid;
 	
 	private String token;
+	
+	@Column(name="head_url")
+	private String headUrl;
 
 	public Long getId() {
 		return id;
@@ -114,5 +118,13 @@ public class ClientUser {
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
+
+    public String getHeadUrl() {
+        return headUrl;
+    }
+
+    public void setHeadUrl(String headUrl) {
+        this.headUrl = headUrl;
+    }
 	
 }
